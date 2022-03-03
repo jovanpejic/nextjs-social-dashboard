@@ -276,7 +276,7 @@ const Body = () => {
   }, []);
 
   return (
-    <VStack width="100%" minHeight="100vh">
+    <VStack width="100%" minHeight="92vh">
       <Container maxWidth="container.md" centerContent mt={20}>
         <Post />
 

@@ -18,7 +18,11 @@ import { useColorMode, useColorModeValue } from "@chakra-ui/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useMetaMask } from "metamask-react";
 import { RiRocketFill } from "react-icons/ri";
-import { AiFillGithub, AiOutlineMenu } from "react-icons/ai";
+import {
+  AiFillGithub,
+  AiOutlineMenu,
+  AiFillTwitterCircle,
+} from "react-icons/ai";
 import NextLink from "next/link";
 import { Menu, MenuButton, MenuList, MenuItem } from "@chakra-ui/react";
 
@@ -107,15 +111,23 @@ const Navbar = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.0, duration: 0.5 }}>
           <Flex
-            mr={40}
+            mr={20}
             alignItems="center"
             justifyContent="flex-start"
             display={{ base: "none", md: "flex" }}>
-            <Flex fontSize="md" mr={3} alignItems="center">
+            <Flex mr={3} alignItems="center">
               <Icon mr={1} fontSize="lg" as={RiRocketFill} />
               <NextLink href="https://github.com/jovanpejic/" passHref>
                 <a target="_blank">
                   <Link>Portfolio</Link>
+                </a>
+              </NextLink>
+            </Flex>
+            <Flex mr={3} alignItems="center">
+              <Icon mr={1} as={AiFillTwitterCircle} />
+              <NextLink href="https://twitter.com/eth_jovan_eth" passHref>
+                <a target="_blank">
+                  <Link>Twitter</Link>
                 </a>
               </NextLink>
             </Flex>
@@ -171,6 +183,11 @@ const Navbar = () => {
                   <NextLink href="https://github.com/jovanpejic/" passHref>
                     <a target="_blank">
                       <MenuItem>Portfolio</MenuItem>
+                    </a>
+                  </NextLink>
+                  <NextLink href="https://twitter.com/eth_jovan_eth" passHref>
+                    <a target="_blank">
+                      <MenuItem>Twitter</MenuItem>
                     </a>
                   </NextLink>
                   <NextLink href="https://github.com/jovanpejic/" passHref>
