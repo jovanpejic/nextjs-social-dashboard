@@ -18,6 +18,7 @@ import { useColorMode } from "@chakra-ui/react";
 import { useColorModeValue } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import { useMetaMask } from "metamask-react";
+import { useEffect } from "react";
 
 const Navbar = () => {
   const { toggleColorMode } = useColorMode();
@@ -64,6 +65,10 @@ const Navbar = () => {
 
     return null;
   }
+
+  useEffect(() => {
+    checkStatus();
+  }, []);
 
   console.log(status);
   return (

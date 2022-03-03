@@ -11,7 +11,8 @@ const Footer = () => {
       height="60px"
       bg={bg}
       color={color}
-      justifyContent="center">
+      justifyContent="center"
+      mt="10px">
       <Container maxWidth="container.md" centerContent>
         <Text fontSize="sm">
           &copy; {new Date().getFullYear()} Built by Ξ Jovan Ξ .
