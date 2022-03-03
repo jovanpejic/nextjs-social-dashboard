@@ -1,19 +1,16 @@
 import React from "react";
-import { Flex, Heading, VStack, HStack, Button } from "@chakra-ui/react";
+import { Heading, VStack, HStack, Button } from "@chakra-ui/react";
 import { Input } from "@chakra-ui/react";
 import { useColorModeValue } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+
 import { ethers } from "ethers";
 import { useMetaMask } from "metamask-react";
+import { motion } from "framer-motion";
 
 const Post = () => {
   const bg = useColorModeValue("gray.50", "gray.700");
   const color = useColorModeValue("black", "white");
   const { status, connect, account, chainId, ethereum } = useMetaMask();
-
-  const [currentAccount, setCurrentAccount] = useState(null);
-  const [waveArray, setWaveArray] = useState([]);
-  const [totalWaves, setTotalWaves] = useState(0);
 
   const contractAddress = "0xb80dc9517caba87ac6c1b972bb4d28fb2303a4c0";
   const contractABI = [
@@ -168,29 +165,34 @@ const Post = () => {
   };
 
   return (
-    <VStack
-      width="400px"
-      mb={20}
-      p={5}
-      borderRadius={10}
-      bg={bg}
-      color={color}
-      boxShadow="md"
-      display={status === "connected" ? "flex" : "none"}>
-      <Heading fontSize="lg">What's on your mind?</Heading>
-      <HStack>
-        <Input
-          variant="filled"
-          borderRadius={5}
-          size="sm"
-          width="250px"
-          placeholder="Your message here..."
-          id="userInput"></Input>
-        <Button size="sm" colorScheme="pink" onClick={() => waveAtMe()}>
-          Submit
-        </Button>
-      </HStack>
-    </VStack>
+    <motion.div
+      initial={{ opacity: 0, y: +20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.0, duration: 0.5 }}>
+      <VStack
+        width="400px"
+        mb={20}
+        p={5}
+        borderRadius={10}
+        bg={bg}
+        color={color}
+        boxShadow="md"
+        display={status === "connected" ? "flex" : "none"}>
+        <Heading fontSize="lg">What's on your mind?</Heading>
+        <HStack>
+          <Input
+            variant="filled"
+            borderRadius={5}
+            size="sm"
+            width="250px"
+            placeholder="Your message here..."
+            id="userInput"></Input>
+          <Button size="sm" colorScheme="pink" onClick={() => waveAtMe()}>
+            Submit
+          </Button>
+        </HStack>
+      </VStack>
+    </motion.div>
   );
 };
 

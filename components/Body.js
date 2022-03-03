@@ -8,6 +8,7 @@ import {
   Alert,
   AlertTitle,
   AlertIcon,
+  Box,
 } from "@chakra-ui/react";
 import Card from "./Card";
 import Post from "./Post";
@@ -25,9 +26,7 @@ const Body = () => {
   const bg = useColorModeValue("gray.100", "gray.900");
   const color = useColorModeValue("black", "white");
 
-  const [currentAccount, setCurrentAccount] = useState(null);
   const [waveArray, setWaveArray] = useState([]);
-  const [totalWaves, setTotalWaves] = useState(0);
 
   const contractAddress = "0xb80dc9517caba87ac6c1b972bb4d28fb2303a4c0";
   const contractABI = [
@@ -186,6 +185,63 @@ const Body = () => {
     }
   };
 
+  waveArray.sort(function (a, b) {
+    // Turn your strings into dates, and then subtract them
+    // to get a value that is either negative, positive, or zero.
+    return new Date(b.timestamp) - new Date(a.timestamp);
+  });
+
+  function checkStatus() {
+    if (status === "initializing")
+      return (
+        <Flex justifyContent="center">
+          <Alert status="info">
+            <AlertIcon />
+            <AlertTitle>Initilizing MetaMask!</AlertTitle>
+          </Alert>
+        </Flex>
+      );
+
+    if (status === "unavailable")
+      return (
+        <Flex justifyContent="center">
+          <Alert status="error">
+            <AlertIcon />
+            <AlertTitle>MetaMask is not installed!</AlertTitle>
+          </Alert>
+        </Flex>
+      );
+
+    if (status === "notConnected")
+      return (
+        <Flex justifyContent="center">
+          <Alert status="warning">
+            <AlertIcon />
+            <AlertTitle>
+              MetaMask is not connected! Please connect to Rinkeby Test Network.
+            </AlertTitle>
+          </Alert>
+        </Flex>
+      );
+
+    if (status === "connecting")
+      return (
+        <Flex justifyContent="center">
+          <Alert status="info">
+            <AlertIcon />
+            <AlertTitle>Connecting to MetaMask!</AlertTitle>
+          </Alert>
+        </Flex>
+      );
+
+    if (status === "connected") {
+      loadAllWaves();
+      return <Heading fontSize="md">Latest Posts</Heading>;
+    }
+
+    return null;
+  }
+
   useEffect(() => {
     let wavePortalContract;
     const onNewWave = (from, timestamp, message) => {
@@ -219,92 +275,11 @@ const Body = () => {
     };
   }, []);
 
-  const numberOfWaves = async () => {
-    try {
-      const { ethereum } = window;
-
-      if (ethereum) {
-        const provider = new ethers.providers.Web3Provider(ethereum);
-        const signer = provider.getSigner();
-        const wavePortalContract = new ethers.Contract(
-          contractAddress,
-          contractABI,
-          signer
-        );
-
-        const _totalWaves = await wavePortalContract.getTotalWaves();
-        setTotalWaves(_totalWaves);
-      } else {
-        console.log("Ethereum object doesn't exist!");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  waveArray.sort(function (a, b) {
-    // Turn your strings into dates, and then subtract them
-    // to get a value that is either negative, positive, or zero.
-    return new Date(b.timestamp) - new Date(a.timestamp);
-  });
-
-  function checkStatus() {
-    if (status === "initializing")
-      return (
-        <Flex justifyContent="center">
-          <Alert status="info">
-            <AlertIcon />
-            <AlertTitle>Initilizing MetaMask!</AlertTitle>
-          </Alert>
-        </Flex>
-      );
-
-    if (status === "unavailable")
-      return (
-        <Flex justifyContent="center">
-          <Alert status="error">
-            <AlertIcon />
-            <AlertTitle>MetaMask is not installed!</AlertTitle>
-          </Alert>
-        </Flex>
-      );
-
-    if (status === "notConnected")
-      return (
-        <Flex justifyContent="center">
-          <Alert status="warning">
-            <AlertIcon />
-            <AlertTitle>MetaMask is not connected!</AlertTitle>
-          </Alert>
-        </Flex>
-      );
-
-    if (status === "connecting")
-      return (
-        <Flex justifyContent="center">
-          <Alert status="info">
-            <AlertIcon />
-            <AlertTitle>Connecting to MetaMask!</AlertTitle>
-          </Alert>
-        </Flex>
-      );
-
-    if (status === "connected") {
-      loadAllWaves();
-      return <Heading fontSize="md">Latest Posts</Heading>;
-    }
-
-    return null;
-  }
-
-  useEffect(() => {
-    checkStatus();
-  }, []);
-
   return (
     <VStack width="100%" minHeight="100vh">
       <Container maxWidth="container.md" centerContent mt={20}>
         <Post />
+
         <VStack>{checkStatus()}</VStack>
         <VStack
           height="auto"
@@ -331,7 +306,7 @@ const Body = () => {
         </Flex>
         {display == "show" && status === "connected" && (
           <>
-            <VStack height="50vh" overflow="scroll" mb={2}>
+            <VStack height="auto" overflow="scroll" mb={2}>
               {waveArray.slice(2).map((waves) => (
                 <Card wave={waves}></Card>
               ))}

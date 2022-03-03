@@ -1,10 +1,8 @@
 import React from "react";
 import {
   Container,
-  Box,
   Heading,
   Icon,
-  Flex,
   Button,
   IconButton,
   HStack,
@@ -13,26 +11,21 @@ import {
 } from "@chakra-ui/react";
 import { FaHandPeace } from "react-icons/fa";
 import { BiWalletAlt, BiMoon } from "react-icons/bi";
-import { BsFillMoonStarsFill } from "react-icons/bs";
-import { useColorMode } from "@chakra-ui/react";
-import { useColorModeValue } from "@chakra-ui/react";
-import { motion } from "framer-motion";
+import { BsSticky, BsSun, BsMoon } from "react-icons/bs";
+import { useColorMode, useColorModeValue } from "@chakra-ui/react";
+import { AnimatePresence, motion } from "framer-motion";
 import { useMetaMask } from "metamask-react";
-import { useEffect } from "react";
 
 const Navbar = () => {
-  const { toggleColorMode } = useColorMode();
+  const { colorMode, toggleColorMode } = useColorMode();
   const bg = useColorModeValue("gray.100", "gray.900");
   const color = useColorModeValue("black", "white");
+
   const { status, connect, account, chainId, ethereum } = useMetaMask();
 
   function checkStatus() {
     if (status === "initializing")
-      return (
-        <Text isTruncated fontSize="x-small">
-          Initilizing
-        </Text>
-      );
+      return <Button colorScheme="transparent" isLoading></Button>;
 
     if (status === "unavailable")
       return (
@@ -49,11 +42,7 @@ const Navbar = () => {
       );
 
     if (status === "connecting")
-      return (
-        <Button colorScheme="transparent" isLoading>
-          Connect
-        </Button>
-      );
+      return <Button colorScheme="transparent" isLoading></Button>;
 
     if (status === "connected")
       return (
@@ -65,10 +54,6 @@ const Navbar = () => {
 
     return null;
   }
-
-  useEffect(() => {
-    checkStatus();
-  }, []);
 
   console.log(status);
   return (
@@ -93,7 +78,9 @@ const Navbar = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.0, duration: 0.5 }}>
           <HStack>
-            <Icon size="lg" as={FaHandPeace} />
+            <motion.div whileHover={{ rotate: 20 }}>
+              <Icon size="lg" as={FaHandPeace} />
+            </motion.div>
             <Heading size="md">Wave Portal</Heading>
           </HStack>
         </motion.div>
@@ -111,12 +98,21 @@ const Navbar = () => {
               overflow="clip">
               {checkStatus()}
             </Button>
-            <IconButton
-              colorScheme="yellow"
-              p={3}
-              as={BsFillMoonStarsFill}
-              onClick={toggleColorMode}
-            />
+            <AnimatePresence exitBeforeEnter initial={false}>
+              <motion.div
+                style={{ display: "inline-block" }}
+                key={useColorModeValue("light", "dark")}
+                initial={{ y: -20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: 20, opacity: 0 }}
+                transition={{ duration: 0.2 }}>
+                <IconButton
+                  aria-label="Toggle theme"
+                  colorScheme={useColorModeValue("purple", "yellow")}
+                  icon={useColorModeValue(<BsMoon />, <BsSun />)}
+                  onClick={toggleColorMode}></IconButton>
+              </motion.div>
+            </AnimatePresence>
           </HStack>
         </motion.div>
       </Container>

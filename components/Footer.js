@@ -1,5 +1,5 @@
 import React from "react";
-import { Stack, VStack, Container, Text } from "@chakra-ui/react";
+import { Stack, Container, Text } from "@chakra-ui/react";
 import { useColorModeValue } from "@chakra-ui/react";
 
 const Footer = () => {

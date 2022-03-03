@@ -3,17 +3,13 @@ import {
   Flex,
   Heading,
   VStack,
-  HStack,
-  Button,
   Container,
   Text,
-  Divider,
   Spacer,
   Box,
-  Icon,
   Avatar,
 } from "@chakra-ui/react";
-import { Input } from "@chakra-ui/react";
+
 import { useColorModeValue } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import { generateFromString } from "generate-avatar";
