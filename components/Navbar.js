@@ -25,7 +25,11 @@ const Navbar = () => {
 
   function checkStatus() {
     if (status === "initializing")
-      return <Button colorScheme="transparent" isLoading></Button>;
+      return (
+        <Button size="md" colorScheme="transparent" isLoading>
+          Connect
+        </Button>
+      );
 
     if (status === "unavailable")
       return (
@@ -36,13 +40,21 @@ const Navbar = () => {
 
     if (status === "notConnected")
       return (
-        <Button colorScheme="transparent" onClick={connect} fontSize="md">
+        <Button
+          size="md"
+          colorScheme="transparent"
+          onClick={connect}
+          fontSize="md">
           Connect
         </Button>
       );
 
     if (status === "connecting")
-      return <Button colorScheme="transparent" isLoading></Button>;
+      return (
+        <Button size="md" colorScheme="transparent" isLoading>
+          Connect
+        </Button>
+      );
 
     if (status === "connected")
       return (
