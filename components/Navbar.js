@@ -94,7 +94,7 @@ const Navbar = () => {
           transition={{ delay: 0.0, duration: 0.5 }}>
           <HStack>
             <Icon size="lg" as={FaHandPeace} />
-            <Heading size="md">Social Portal</Heading>
+            <Heading size="md">Wave Portal</Heading>
           </HStack>
         </motion.div>
         <motion.div

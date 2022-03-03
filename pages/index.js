@@ -7,11 +7,14 @@ import { ethers } from "ethers";
 
 const HomePage = () => {
   return (
-    <VStack>
-      <Navbar />
-      <Body />
+    <>
+      <VStack>
+        <Navbar />
+        <Body />
+      </VStack>
+
       <Footer />
-    </VStack>
+    </>
   );
 };
 

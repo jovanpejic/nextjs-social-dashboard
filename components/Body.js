@@ -1,12 +1,27 @@
-import { VStack, Text, Container, Flex, Box, Heading } from "@chakra-ui/react";
+import {
+  VStack,
+  Container,
+  Flex,
+  Heading,
+  Divider,
+  IconButton,
+  Alert,
+  AlertTitle,
+  AlertIcon,
+} from "@chakra-ui/react";
 import Card from "./Card";
 import Post from "./Post";
 import { useEffect, useState } from "react";
 import { ethers } from "ethers";
-import { sendError } from "next/dist/server/api-utils";
+
 import { useColorModeValue } from "@chakra-ui/react";
+import { FiChevronDown, FiChevronsUp } from "react-icons/fi";
+import { useMetaMask } from "metamask-react";
 
 const Body = () => {
+  const [display, setDisplay] = useState("hide");
+  const { status, connect, account, chainId, ethereum } = useMetaMask();
+
   const bg = useColorModeValue("gray.100", "gray.900");
   const color = useColorModeValue("black", "white");
 
@@ -172,7 +187,6 @@ const Body = () => {
   };
 
   useEffect(() => {
-    loadAllWaves();
     let wavePortalContract;
     const onNewWave = (from, timestamp, message) => {
       console.log("NewWave", from, timestamp, message);
@@ -227,15 +241,103 @@ const Body = () => {
       console.log(error);
     }
   };
+
+  waveArray.sort(function (a, b) {
+    // Turn your strings into dates, and then subtract them
+    // to get a value that is either negative, positive, or zero.
+    return new Date(b.timestamp) - new Date(a.timestamp);
+  });
+
+  function checkStatus() {
+    if (status === "initializing")
+      return (
+        <Flex justifyContent="center">
+          <Alert status="info">
+            <AlertIcon />
+            <AlertTitle>Initilizing MetaMask!</AlertTitle>
+          </Alert>
+        </Flex>
+      );
+
+    if (status === "unavailable")
+      return (
+        <Flex justifyContent="center">
+          <Alert status="error">
+            <AlertIcon />
+            <AlertTitle>MetaMask is not installed!</AlertTitle>
+          </Alert>
+        </Flex>
+      );
+
+    if (status === "notConnected")
+      return (
+        <Flex justifyContent="center">
+          <Alert status="warning">
+            <AlertIcon />
+            <AlertTitle>MetaMask is not connected!</AlertTitle>
+          </Alert>
+        </Flex>
+      );
+
+    if (status === "connecting")
+      return (
+        <Flex justifyContent="center">
+          <Alert status="info">
+            <AlertIcon />
+            <AlertTitle>Connecting to MetaMask!</AlertTitle>
+          </Alert>
+        </Flex>
+      );
+
+    if (status === "connected") {
+      loadAllWaves();
+      return <Heading fontSize="md">Latest Posts</Heading>;
+    }
+
+    return null;
+  }
+
+  useEffect(() => {
+    checkStatus();
+  }, []);
+
   return (
-    <VStack width="100%" height="100vh">
-      <Container maxWidth="container.md" centerContent>
+    <VStack width="100%" minHeight="100vh">
+      <Container maxWidth="container.md" centerContent mt={20}>
         <Post />
-        <VStack>
-          {waveArray.map((waves) => (
+        <VStack>{checkStatus()}</VStack>
+        <VStack
+          height="auto"
+          overflow="scroll"
+          mb={5}
+          display={status === "connected" ? "flex" : "none"}>
+          {waveArray.slice(1, 2).map((waves) => (
             <Card wave={waves}></Card>
           ))}
         </VStack>
+        <Flex align="center" display={status === "connected" ? "flex" : "none"}>
+          <Divider orientation="horizontal" />
+          <IconButton
+            onClick={() => {
+              if (display == "show") {
+                setDisplay("none");
+              } else {
+                setDisplay("show");
+              }
+            }}
+            icon={display == "show" ? <FiChevronsUp /> : <FiChevronDown />}
+          />
+          <Divider />
+        </Flex>
+        {display == "show" && status === "connected" && (
+          <>
+            <VStack height="50vh" overflow="scroll" mb={2}>
+              {waveArray.slice(2).map((waves) => (
+                <Card wave={waves}></Card>
+              ))}
+            </VStack>
+          </>
+        )}
       </Container>
     </VStack>
   );

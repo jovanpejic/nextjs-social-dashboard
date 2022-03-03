@@ -4,10 +4,12 @@ import { Input } from "@chakra-ui/react";
 import { useColorModeValue } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { ethers } from "ethers";
+import { useMetaMask } from "metamask-react";
 
 const Post = () => {
   const bg = useColorModeValue("gray.50", "gray.700");
   const color = useColorModeValue("black", "white");
+  const { status, connect, account, chainId, ethereum } = useMetaMask();
 
   const [currentAccount, setCurrentAccount] = useState(null);
   const [waveArray, setWaveArray] = useState([]);
@@ -168,14 +170,14 @@ const Post = () => {
   return (
     <VStack
       width="400px"
-      mt={20}
       mb={20}
       p={5}
       borderRadius={10}
       bg={bg}
       color={color}
-      boxShadow="md">
-      <Heading fontSize="lg">What do you have in mind?</Heading>
+      boxShadow="md"
+      display={status === "connected" ? "flex" : "none"}>
+      <Heading fontSize="lg">What's on your mind?</Heading>
       <HStack>
         <Input
           variant="filled"
