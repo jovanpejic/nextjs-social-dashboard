@@ -287,7 +287,7 @@ const Body = () => {
           mb={5}
           display={status === "connected" ? "flex" : "none"}>
           {waveArray.slice(1, 2).map((waves) => (
-            <Card wave={waves}></Card>
+            <Card key={waves.timestamp} wave={waves}></Card>
           ))}
         </VStack>
         <Flex align="center" display={status === "connected" ? "flex" : "none"}>
@@ -308,7 +308,7 @@ const Body = () => {
           <>
             <VStack height="auto" overflow="scroll" mb={2}>
               {waveArray.slice(2).map((waves) => (
-                <Card wave={waves}></Card>
+                <Card key={waves.timestamp} wave={waves}></Card>
               ))}
             </VStack>
           </>

@@ -178,7 +178,7 @@ const Post = () => {
         color={color}
         boxShadow="md"
         display={status === "connected" ? "flex" : "none"}>
-        <Heading fontSize="lg">What's on your mind?</Heading>
+        <Heading fontSize="lg">What is on your mind?</Heading>
         <HStack>
           <Input
             variant="filled"
