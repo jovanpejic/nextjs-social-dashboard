@@ -8,6 +8,8 @@ import {
   HStack,
   VStack,
   Text,
+  Link,
+  Flex,
 } from "@chakra-ui/react";
 import { FaHandPeace } from "react-icons/fa";
 import { BiWalletAlt, BiMoon } from "react-icons/bi";
@@ -15,6 +17,10 @@ import { BsSticky, BsSun, BsMoon } from "react-icons/bs";
 import { useColorMode, useColorModeValue } from "@chakra-ui/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useMetaMask } from "metamask-react";
+import { RiRocketFill } from "react-icons/ri";
+import { AiFillGithub, AiOutlineMenu } from "react-icons/ai";
+import NextLink from "next/link";
+import { Menu, MenuButton, MenuList, MenuItem } from "@chakra-ui/react";
 
 const Navbar = () => {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -100,6 +106,33 @@ const Navbar = () => {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.0, duration: 0.5 }}>
+          <Flex
+            mr={40}
+            alignItems="center"
+            justifyContent="flex-start"
+            display={{ base: "none", md: "flex" }}>
+            <Flex fontSize="md" mr={3} alignItems="center">
+              <Icon mr={1} fontSize="lg" as={RiRocketFill} />
+              <NextLink href="https://github.com/jovanpejic/" passHref>
+                <a target="_blank">
+                  <Link>Portfolio</Link>
+                </a>
+              </NextLink>
+            </Flex>
+            <Flex alignItems="center">
+              <Icon mr={1} as={AiFillGithub} />
+              <NextLink href="https://github.com/jovanpejic/" passHref>
+                <a target="_blank">
+                  <Link>Github</Link>
+                </a>
+              </NextLink>
+            </Flex>
+          </Flex>
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.0, duration: 0.5 }}>
           <HStack>
             <Button
               size="md"
@@ -125,6 +158,29 @@ const Navbar = () => {
                   onClick={toggleColorMode}></IconButton>
               </motion.div>
             </AnimatePresence>
+            <Flex display={{ base: "inline", md: "none" }}>
+              <Menu>
+                <MenuButton
+                  as={IconButton}
+                  aria-label="Options"
+                  icon={<AiOutlineMenu />}
+                  colorScheme="pink"
+                  _focus={{ colorScheme: "pink" }}
+                />
+                <MenuList>
+                  <NextLink href="https://github.com/jovanpejic/" passHref>
+                    <a target="_blank">
+                      <MenuItem>Portfolio</MenuItem>
+                    </a>
+                  </NextLink>
+                  <NextLink href="https://github.com/jovanpejic/" passHref>
+                    <a target="_blank">
+                      <MenuItem>Github</MenuItem>
+                    </a>
+                  </NextLink>
+                </MenuList>
+              </Menu>
+            </Flex>
           </HStack>
         </motion.div>
       </Container>
