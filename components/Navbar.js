@@ -117,7 +117,9 @@ const Navbar = () => {
             display={{ base: "none", md: "flex" }}>
             <Flex mr={3} alignItems="center">
               <Icon mr={1} fontSize="lg" as={RiRocketFill} />
-              <NextLink href="https://github.com/jovanpejic/" passHref>
+              <NextLink
+                href="https://nextjs-portfolio-lac-delta.vercel.app/"
+                passHref>
                 <a target="_blank">
                   <Link>Portfolio</Link>
                 </a>
@@ -180,7 +182,9 @@ const Navbar = () => {
                   _focus={{ colorScheme: "pink" }}
                 />
                 <MenuList>
-                  <NextLink href="https://github.com/jovanpejic/" passHref>
+                  <NextLink
+                    href="https://nextjs-portfolio-lac-delta.vercel.app/"
+                    passHref>
                     <a target="_blank">
                       <MenuItem>Portfolio</MenuItem>
                     </a>
