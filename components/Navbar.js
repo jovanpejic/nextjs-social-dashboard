@@ -25,6 +25,7 @@ import {
 } from "react-icons/ai";
 import NextLink from "next/link";
 import { Menu, MenuButton, MenuList, MenuItem } from "@chakra-ui/react";
+import { AlertIcon } from "@chakra-ui/react";
 
 const Navbar = () => {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -43,9 +44,9 @@ const Navbar = () => {
 
     if (status === "unavailable")
       return (
-        <Text isTruncated fontSize="x-small">
-          Install MetaMask
-        </Text>
+        <Button size="md" colorScheme="transparent" isLoading>
+          Connect
+        </Button>
       );
 
     if (status === "notConnected")
